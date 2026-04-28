@@ -1,0 +1,67 @@
+<div class="login-container">
+  <mat-card class="login-card">
+
+    <div class="login-header">
+      <div class="logo-icon">💰</div>
+      <h1>Expense Tracker</h1>
+      <p>Login to manage your expenses</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      ⚠️ {{ errorMessage }}
+    </div>
+
+    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email Address</mat-label>
+        <input
+          matInput
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          #emailField="ngModel"
+          required
+          email>
+        <mat-error *ngIf="emailField.errors?.['required']">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="emailField.errors?.['email']">
+          Enter a valid email address
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="showPassword ? 'text' : 'password'"
+          name="password"
+          [(ngModel)]="password"
+          #passwordField="ngModel"
+          required
+          minlength="6">
+        <mat-error *ngIf="passwordField.errors?.['required']">
+          Password is required
+        </mat-error>
+        <mat-error *ngIf="passwordField.errors?.['minlength']">
+          Password must be at least 6 characters
+        </mat-error>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        class="login-btn"
+        type="submit"
+        [disabled]="isLoading">
+        {{ isLoading ? '⏳ Logging in...' : '🔐 Login' }}
+      </button>
+
+    </form>
+
+    <p class="register-link">
+      Don't have an account? <a routerLink="/register">Register here</a>
+    </p>
+
+  </mat-card>
+</div>

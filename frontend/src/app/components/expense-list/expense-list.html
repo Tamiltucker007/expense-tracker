@@ -1,0 +1,158 @@
+<div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="logo-icon">💰</span>
+        <span class="logo-text">ExpenseTracker</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item" routerLink="/dashboard" routerLinkActive="active">
+          <mat-icon>dashboard</mat-icon>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-item" routerLink="/expenses" routerLinkActive="active">
+          <mat-icon>receipt_long</mat-icon>
+          <span>Expenses</span>
+        </a>
+        <a class="nav-item" routerLink="/expenses/add" routerLinkActive="active">
+          <mat-icon>add_circle</mat-icon>
+          <span>Add Expense</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+  
+    <!-- Main Content -->
+    <div class="main-content">
+  
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2 class="page-title">Expenses</h2>
+        </div>
+        <div class="topbar-right">
+          <a routerLink="/expenses/add" class="add-btn">
+            <mat-icon>add</mat-icon>
+            Add Expense
+          </a>
+        </div>
+      </header>
+  
+      <!-- Page Content -->
+      <div class="page-content">
+  
+        <!-- Summary Bar -->
+        <div class="summary-bar">
+          <div class="summary-item">
+            <span class="summary-label">Total Records</span>
+            <span class="summary-value">{{ expenses.length }}</span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-item">
+            <span class="summary-label">Total Amount</span>
+            <span class="summary-value amount">₹ {{ getTotalAmount().toFixed(2) }}</span>
+          </div>
+        </div>
+  
+        <!-- Loading -->
+        <div *ngIf="isLoading" class="loading-state">
+          <mat-icon>hourglass_empty</mat-icon>
+          <p>Loading expenses...</p>
+        </div>
+  
+        <!-- Error -->
+        <div *ngIf="errorMessage" class="error-message">
+          ⚠️ {{ errorMessage }}
+        </div>
+  
+        <!-- Table -->
+        <div *ngIf="!isLoading && expenses.length > 0" class="table-container">
+          <table mat-table [dataSource]="expenses" class="expense-table">
+  
+            <!-- Title Column -->
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef>Title</th>
+              <td mat-cell *matCellDef="let expense">
+                <div class="title-cell">
+                  <span class="expense-title">{{ expense.title }}</span>
+                </div>
+              </td>
+            </ng-container>
+  
+            <!-- Category Column -->
+            <ng-container matColumnDef="category">
+              <th mat-header-cell *matHeaderCellDef>Category</th>
+              <td mat-cell *matCellDef="let expense">
+                <span class="category-badge"
+                  [style.background]="categoryColors[expense.category] + '20'"
+                  [style.color]="categoryColors[expense.category]">
+                  {{ categoryIcons[expense.category] }} {{ expense.category }}
+                </span>
+              </td>
+            </ng-container>
+  
+            <!-- Amount Column -->
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef>Amount</th>
+              <td mat-cell *matCellDef="let expense">
+                <span class="amount-value">₹ {{ expense.amount.toFixed(2) }}</span>
+              </td>
+            </ng-container>
+  
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef>Date</th>
+              <td mat-cell *matCellDef="let expense">
+                <span class="date-value">{{ expense.date | date:'dd MMM yyyy' }}</span>
+              </td>
+            </ng-container>
+  
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>Description</th>
+              <td mat-cell *matCellDef="let expense">
+                <span class="desc-value">{{ expense.description || '—' }}</span>
+              </td>
+            </ng-container>
+  
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let expense">
+                <div class="action-btns">
+                  <a [routerLink]="['/expenses/edit', expense._id]" class="edit-btn">
+                    <mat-icon>edit</mat-icon>
+                  </a>
+                  <button class="delete-btn" (click)="deleteExpense(expense._id)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+          </table>
+        </div>
+  
+        <!-- Empty State -->
+        <div *ngIf="!isLoading && expenses.length === 0" class="empty-state">
+          <mat-icon>receipt_long</mat-icon>
+          <h3>No expenses found</h3>
+          <p>Start tracking by adding your first expense</p>
+          <a routerLink="/expenses/add" class="start-btn">
+            <mat-icon>add</mat-icon>
+            Add First Expense
+          </a>
+        </div>
+  
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,124 @@
+<div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="logo-icon">💰</span>
+        <span class="logo-text">ExpenseTracker</span>
+      </div>
+  
+      <nav class="sidebar-nav">
+        <a class="nav-item"
+          *ngFor="let item of menuItems"
+          [routerLink]="item.route"
+          routerLinkActive="active">
+          <mat-icon>{{item.icon}}</mat-icon>
+          <span>{{item.label}}</span>
+        </a>
+      </nav>
+  
+      <div class="sidebar-footer">
+        <button class="logout-btn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+  
+    <!-- Main Content -->
+    <div class="main-content">
+  
+      <!-- Top Navbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2 class="page-title">Dashboard</h2>
+        </div>
+        <div class="topbar-right">
+          <div class="profile-menu" [matMenuTriggerFor]="profileMenu">
+            <div class="avatar">T</div>
+            <span class="user-name">Test User</span>
+            <mat-icon>expand_more</mat-icon>
+          </div>
+          <mat-menu #profileMenu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>person</mat-icon>
+              <span>Profile</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>settings</mat-icon>
+              <span>Settings</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </div>
+      </header>
+  
+      <!-- Page Content -->
+      <div class="page-content">
+  
+        <!-- Summary Cards -->
+        <div class="cards-grid">
+          <div class="summary-card blue">
+            <div class="card-icon">
+              <mat-icon>account_balance_wallet</mat-icon>
+            </div>
+            <div class="card-info">
+              <p class="card-label">Total Expenses</p>
+              <h3 class="card-value">₹ 0.00</h3>
+            </div>
+          </div>
+  
+          <div class="summary-card green">
+            <div class="card-icon">
+              <mat-icon>trending_up</mat-icon>
+            </div>
+            <div class="card-info">
+              <p class="card-label">This Month</p>
+              <h3 class="card-value">₹ 0.00</h3>
+            </div>
+          </div>
+  
+          <div class="summary-card orange">
+            <div class="card-icon">
+              <mat-icon>receipt</mat-icon>
+            </div>
+            <div class="card-info">
+              <p class="card-label">Total Records</p>
+              <h3 class="card-value">0</h3>
+            </div>
+          </div>
+  
+          <div class="summary-card purple">
+            <div class="card-icon">
+              <mat-icon>category</mat-icon>
+            </div>
+            <div class="card-info">
+              <p class="card-label">Categories</p>
+              <h3 class="card-value">7</h3>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Recent Expenses -->
+        <div class="recent-section">
+          <div class="section-header">
+            <h3>Recent Expenses</h3>
+            <a routerLink="/expenses/add" class="add-btn">
+              <mat-icon>add</mat-icon>
+              Add Expense
+            </a>
+          </div>
+          <div class="empty-state">
+            <mat-icon>receipt_long</mat-icon>
+            <p>No expenses yet. Start by adding one!</p>
+            <a routerLink="/expenses/add" class="start-btn">Add First Expense</a>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>

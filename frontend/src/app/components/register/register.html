@@ -1,0 +1,89 @@
+<div class="register-container">
+  <mat-card class="register-card">
+
+    <div class="register-header">
+      <div class="logo-icon">💰</div>
+      <h1>Expense Tracker</h1>
+      <p>Create your free account</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      ⚠️ {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="success-message">
+      ✅ {{ successMessage }}
+    </div>
+
+    <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Full Name</mat-label>
+        <input
+          matInput
+          type="text"
+          name="name"
+          [(ngModel)]="name"
+          #nameField="ngModel"
+          required
+          minlength="3">
+        <mat-error *ngIf="nameField.errors?.['required']">
+          Full name is required
+        </mat-error>
+        <mat-error *ngIf="nameField.errors?.['minlength']">
+          Name must be at least 3 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email Address</mat-label>
+        <input
+          matInput
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          #emailField="ngModel"
+          required
+          email>
+        <mat-error *ngIf="emailField.errors?.['required']">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="emailField.errors?.['email']">
+          Enter a valid email address
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          #passwordField="ngModel"
+          required
+          minlength="6">
+        <mat-error *ngIf="passwordField.errors?.['required']">
+          Password is required
+        </mat-error>
+        <mat-error *ngIf="passwordField.errors?.['minlength']">
+          Password must be at least 6 characters
+        </mat-error>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        class="register-btn"
+        type="submit"
+        [disabled]="isLoading">
+        {{ isLoading ? '⏳ Creating account...' : '🚀 Create Account' }}
+      </button>
+
+    </form>
+
+    <p class="login-link">
+      Already have an account? <a routerLink="/login">Login here</a>
+    </p>
+
+  </mat-card>
+</div>

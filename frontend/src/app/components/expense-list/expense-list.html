@@ -129,7 +129,7 @@
                   <a [routerLink]="['/expenses/edit', expense._id]" class="edit-btn">
                     <mat-icon>edit</mat-icon>
                   </a>
-                  <button class="delete-btn" (click)="deleteExpense(expense._id)">
+                  <button class="delete-btn" (click)="openDeleteModal(expense)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>
@@ -153,6 +153,38 @@
           </a>
         </div>
   
-      </div>
     </div>
   </div>
+ </div>
+
+<div
+  *ngIf="isDeleteModalOpen"
+  class="modal-overlay"
+  (click)="closeDeleteModal()">
+  <div
+    class="confirm-modal"
+    (click)="$event.stopPropagation()">
+    <div class="modal-badge">
+      <mat-icon>delete_forever</mat-icon>
+    </div>
+    <h3>Delete {{ selectedExpenseTitle || 'this expense' }}?</h3>
+    <p>₹{{ selectedExpenseAmount | number:'1.2-2' }} will be permanently removed.</p>
+
+    <div class="modal-actions">
+      <button
+        type="button"
+        class="modal-cancel-btn"
+        [disabled]="isDeleting"
+        (click)="closeDeleteModal()">
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="modal-confirm-btn"
+        [disabled]="isDeleting"
+        (click)="confirmDeleteExpense()">
+        {{ isDeleting ? 'Deleting...' : 'Delete' }}
+      </button>
+    </div>
+  </div>
+</div>

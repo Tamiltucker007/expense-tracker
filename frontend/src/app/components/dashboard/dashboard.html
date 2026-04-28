@@ -68,7 +68,7 @@
             </div>
             <div class="card-info">
               <p class="card-label">Total Expenses</p>
-              <h3 class="card-value">₹ 0.00</h3>
+              <h3 class="card-value">₹ {{ totalExpenses | number:'1.2-2' }}</h3>
             </div>
           </div>
   
@@ -78,7 +78,7 @@
             </div>
             <div class="card-info">
               <p class="card-label">This Month</p>
-              <h3 class="card-value">₹ 0.00</h3>
+              <h3 class="card-value">₹ {{ thisMonthExpenses | number:'1.2-2' }}</h3>
             </div>
           </div>
   
@@ -88,7 +88,7 @@
             </div>
             <div class="card-info">
               <p class="card-label">Total Records</p>
-              <h3 class="card-value">0</h3>
+              <h3 class="card-value">{{ totalRecords }}</h3>
             </div>
           </div>
   
@@ -98,7 +98,7 @@
             </div>
             <div class="card-info">
               <p class="card-label">Categories</p>
-              <h3 class="card-value">7</h3>
+              <h3 class="card-value">{{ categoryCount }}</h3>
             </div>
           </div>
         </div>
@@ -112,7 +112,30 @@
               Add Expense
             </a>
           </div>
-          <div class="empty-state">
+
+          <div *ngIf="errorMessage" class="error-message">
+            ⚠️ {{ errorMessage }}
+          </div>
+
+          <div *ngIf="isLoading" class="empty-state">
+            <mat-icon>hourglass_empty</mat-icon>
+            <p>Loading dashboard data...</p>
+          </div>
+
+          <div *ngIf="!isLoading && recentExpenses.length > 0" class="recent-list">
+            <div class="recent-item" *ngFor="let expense of recentExpenses">
+              <div class="recent-item-left">
+                <div class="recent-icon">{{ categoryIcons[expense.category] || '📦' }}</div>
+                <div>
+                  <p class="recent-title">{{ expense.title }}</p>
+                  <p class="recent-meta">{{ expense.category }} • {{ expense.date | date:'dd MMM yyyy' }}</p>
+                </div>
+              </div>
+              <div class="recent-amount">₹ {{ expense.amount | number:'1.2-2' }}</div>
+            </div>
+          </div>
+
+          <div *ngIf="!isLoading && recentExpenses.length === 0" class="empty-state">
             <mat-icon>receipt_long</mat-icon>
             <p>No expenses yet. Start by adding one!</p>
             <a routerLink="/expenses/add" class="start-btn">Add First Expense</a>

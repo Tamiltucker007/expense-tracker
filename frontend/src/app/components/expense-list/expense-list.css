@@ -295,6 +295,109 @@
     background: #e53935;
     color: white;
   }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(15, 23, 42, 0.42);
+    backdrop-filter: blur(3px);
+    z-index: 1000;
+  }
+
+  .confirm-modal {
+    width: min(100%, 380px);
+    padding: 28px 24px 22px;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.16);
+    text-align: center;
+  }
+
+  .modal-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 14px;
+    border-radius: 50%;
+    background: #fef2f2;
+    color: #dc2626;
+  }
+
+  .modal-badge mat-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+  }
+
+  .confirm-modal h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+  }
+
+  .confirm-modal p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #64748b;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .modal-cancel-btn,
+  .modal-confirm-btn {
+    flex: 1;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  }
+
+  .modal-cancel-btn {
+    border: 1px solid #d7deea;
+    background: #ffffff;
+    color: #334155;
+  }
+
+  .modal-confirm-btn {
+    border: none;
+    background: #dc2626;
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(220, 38, 38, 0.22);
+  }
+
+  .modal-cancel-btn:hover,
+  .modal-confirm-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .modal-cancel-btn:hover {
+    border-color: #c3ccd9;
+    background: #f8fafc;
+  }
+
+  .modal-confirm-btn:hover {
+    background: #b91c1c;
+  }
+
+  .modal-cancel-btn:disabled,
+  .modal-confirm-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
   
   /* Loading & Empty States */
   .loading-state {
@@ -369,4 +472,55 @@
   .start-btn:hover {
     opacity: 0.9;
     transform: translateY(-1px);
+  }
+
+  @media (max-width: 768px) {
+    .summary-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .summary-divider {
+      width: 100%;
+      height: 1px;
+    }
+
+    .topbar {
+      padding: 0 20px;
+    }
+
+    .page-content {
+      padding: 20px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .app-layout {
+      flex-direction: column;
+      height: auto;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 100%;
+      min-width: 100%;
+    }
+
+    .topbar {
+      height: auto;
+      padding: 20px;
+      gap: 16px;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .modal-actions {
+      flex-direction: column;
+    }
+
+    .modal-cancel-btn,
+    .modal-confirm-btn {
+      width: 100%;
+    }
   }

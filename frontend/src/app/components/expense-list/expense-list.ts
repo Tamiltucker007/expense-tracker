@@ -28,6 +28,11 @@ export class ExpenseListComponent implements OnInit {
   expenses: any[] = [];
   isLoading = true;
   errorMessage = '';
+  isDeleteModalOpen = false;
+  isDeleting = false;
+  selectedExpenseId = '';
+  selectedExpenseTitle = '';
+  selectedExpenseAmount = 0;
 
   displayedColumns = ['title', 'category', 'amount', 'date', 'description', 'actions'];
 
@@ -79,17 +84,40 @@ export class ExpenseListComponent implements OnInit {
     return this.expenses.reduce((sum, e) => sum + e.amount, 0);
   }
 
-  deleteExpense(id: string) {
-    if (confirm('Are you sure you want to delete this expense?')) {
-      this.expenseService.deleteExpense(id).subscribe({
-        next: () => {
-          this.expenses = this.expenses.filter(e => e._id !== id);
-        },
-        error: () => {
-          alert('Failed to delete expense');
-        }
-      });
-    }
+  openDeleteModal(expense: any) {
+    this.selectedExpenseId = expense._id;
+    this.selectedExpenseTitle = expense.title;
+    this.selectedExpenseAmount = expense.amount;
+    this.errorMessage = '';
+    this.isDeleteModalOpen = true;
+  }
+
+  closeDeleteModal() {
+    if (this.isDeleting) return;
+
+    this.isDeleteModalOpen = false;
+    this.selectedExpenseId = '';
+    this.selectedExpenseTitle = '';
+    this.selectedExpenseAmount = 0;
+  }
+
+  confirmDeleteExpense() {
+    if (!this.selectedExpenseId) return;
+
+    this.isDeleting = true;
+    this.errorMessage = '';
+
+    this.expenseService.deleteExpense(this.selectedExpenseId).subscribe({
+      next: () => {
+        this.expenses = this.expenses.filter(e => e._id !== this.selectedExpenseId);
+        this.isDeleting = false;
+        this.closeDeleteModal();
+      },
+      error: (err) => {
+        this.isDeleting = false;
+        this.errorMessage = err.error?.message || 'Failed to delete expense';
+      }
+    });
   }
 
   logout() {
